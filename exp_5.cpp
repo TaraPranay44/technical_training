@@ -146,13 +146,21 @@ int main()
     linkedListTraversal(head);
     cout<<endl<<endl;
     
-    char ch;
-    cout<<"enter any character: "<<" ";
-    cin>>ch;
+    int t;
+    cout<<"Enter no. of test cases: ";
+    cin>>t;
     cout<<endl;
-    cout<<"Lets check the name contains character "<<ch<<endl;
-    cout<<endl;
-    isfound(head,ch)?cout<<"Yes, the character you have entered is present in the list " : cout<<"No, the character you have entered is not present in the list ";
+    while(t--){
+        char ch;
+        cout<<"enter any character: "<<" ";
+        cin>>ch;
+        cout<<endl;
+        cout<<"Lets check the name contains character "<<ch<<endl;
+        cout<<endl;
+        isfound(head,ch)?cout<<"Yes, the character "<<ch<<" is present in the list \n" : cout<<"No, the character "<<ch<<" is not present in the list \n";
+        cout<<endl;
+    }
+    
     
     
     
