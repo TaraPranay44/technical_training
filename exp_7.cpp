@@ -1,52 +1,89 @@
+
 #include <iostream>
-#include <bits/stdc++.h>
 
 using namespace std;
 
-int maxi(vector<int>&arr){
-    int maxim = INT_MIN;
-    for(int i = 0;i<arr.size();i++){
-        maxim = max(maxim,arr[i]);
-    }
-    return maxim;
-}
+class TrieNode{
+  public:
+  char data;
+  TrieNode * children[26];
+  bool isTerminal;
+  
+  TrieNode(char ch){
+      data = ch;
+      for(int i = 0;i<26;i++){
+          children[i] = NULL;
+          isTerminal = false;
+      }
+  }
+};
 
-void count_Sort(vector<int>&arr){
-    int max = maxi(arr);
-    vector<int>count(max,0);
-    for(int i=0;i<arr.size();i++){
-        count[arr[i]]++;
-    }
-   
-    int i =0; // counter for count array
-    int j =0; // counter for given array A
-
-    while(i <= max){
-        if(count[i]>0){
-            arr[j] = i;
-            count[i] = count[i] - 1;
-            j++;
-        }
-        else{
-            i++;
-        }
-    }
-}
-
-void printArray(vector<int>&arr){
-    for(int i = 0;i<arr.size();i++){
-        cout<<arr[i]<<" ";
-    }
-    cout<<endl;
-}
-
+class Trie{
+  public:
+  TrieNode*root;
+  
+  Trie(){
+      root = new TrieNode('\0');
+  }
+  
+  //INSERTION
+  void insertUtil(TrieNode*root,string word){
+      if(word.length() == 0){
+          root->isTerminal = true;
+          return;
+      }
+      
+      int index = word[0] - 'A';
+      TrieNode * child;
+      
+      if(root->children[index] != NULL){
+          child = root->children[index];
+      }else{
+          child = new TrieNode(word[0]);
+          root->children[index] = child;
+      }
+      insertUtil(child,word.substr(1));
+  }
+  
+  void insertWord(string word){
+      insertUtil(root,word);
+  }
+  
+//   SEARCHING
+  bool searchUtil(TrieNode*root,string word){
+      if(word.length() == 0){
+          return root->isTerminal;
+      }
+      int index = word[0] - 'A';
+      TrieNode * child;
+      
+      if(root->children[index] != NULL){
+          child = root->children[index];
+      }else{
+          return false;
+      }
+      return searchUtil(child,word.substr(1));
+  }
+  
+  bool searchWord(string word){
+      return searchUtil(root,word);
+  }
+  
+  
+};
 int main()
 {
-    vector<int>arr = {5,4,5,3,5,4,2,1,5,3,1};
+    Trie * t = new Trie();
+    t->insertWord("ARM");
+    t->insertWord("TIME");
+    t->insertWord("DO");
     
-    printArray(arr);
-    count_Sort(arr);
-    printArray(arr);
+    if(t->searchWord("TARA")){
+        cout<<"the word you entered is present"<<endl;
+    }else{
+        cout<<"the word you entered is not present"<<endl;
+    }
+    
     
 
     return 0;
